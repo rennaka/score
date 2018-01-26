@@ -22,7 +22,7 @@ class User
   end
 
   def to_json
-    JSON.pretty_generate({"id": @id, "name": @name, "score": @score})
+    {"id": @id, "name": @name, "score": @score}
   end
 
   def self.average(users)
