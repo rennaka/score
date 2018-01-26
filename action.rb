@@ -1,6 +1,11 @@
 require "json"
+require "./json.rb"
 
 class Action
+
+  def initialize
+    @users = JsonAction.get_users
+  end
 
   def main
     p "input movement>"
@@ -9,23 +14,19 @@ class Action
   end
 
   def average
-    File.open("database.json") do |j|
-      users = JSON.load(j)
-      puts User.average(users)
-    end
-    main
+    puts User.average(@users)
   end
 
-  # display
-  # File.open("database.json") do |j|
-  #   p hash = JSON.load(j)
-  # end
+  def display
+    p @users
+  end
 
-  # # create
-  # File.open("database.json") do |j|
-  #   users = JSON.load(j)
-  #   new_user = User.new(3,"ccc",50)
-  #   users << new_user.to_json
-  # end
+  def create
+    new_user = User.new(3,"ccc",50)
+    p @users << new_user.to_json
+  end
 
+  def delete
+
+  end
 end
