@@ -1,11 +1,13 @@
 require "json"
+require "./user.rb"
 
 p "input movement>"
-input = STDIN.gets
+input = STDIN.gets.chomp!
 p input
 
 File.open("database.json") do |j|
-  p hash = JSON.load(j)
+  users = JSON.load(j)
+  p User.average(users)
 end
 
 

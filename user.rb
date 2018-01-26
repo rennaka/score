@@ -12,4 +12,9 @@ class User
   def score
 
   end
+
+  def self.average(users)
+    users.map{|user| user["score"]}.inject(:+) / (users.size)
+  end
+
 end
