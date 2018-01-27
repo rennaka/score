@@ -9,25 +9,28 @@ class Action
   end
 
   def main
-    p "input movement>"
+    puts "input movement>"
     input = STDIN.gets.chomp!
     self.send(input)
   end
 
   def average
-    puts User.average(@users)
+    puts">Score Average: #{User.average(@users)}"
   end
 
-  def display
-    p @users
+  def read
+    puts ">Show all scores"
+    @users.each do |user|
+      puts "#{user["id"]}.#{user["score"]}"
+    end
   end
 
   def create
-    p "input name>"
-    name = STDIN.gets.chomp!
-    p "input score>"
+    # p "input name>"
+    # name = STDIN.gets.chomp!
+    p "Please enter the score>"
     score = STDIN.gets.to_i
-    new_user = User.new(3,name,score)
+    new_user = User.new(3,score)
     JsonAction.register_user(new_user)
   end
 
@@ -36,6 +39,6 @@ class Action
   end
 
   def delete
-
+    puts ">Please enter delete kine number"
   end
 end

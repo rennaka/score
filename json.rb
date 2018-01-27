@@ -16,4 +16,8 @@ class JsonAction
     end
   end
 
+  def self.select_user(id)
+    
+  end
+
 end
