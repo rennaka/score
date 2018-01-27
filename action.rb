@@ -39,6 +39,8 @@ class Action
   end
 
   def delete
-    puts ">Please enter delete kine number"
+      puts ">Please enter delete line number"
+    delete_line = STDIN.gets.to_i
+    JsonAction.delete_user(delete_line)
   end
 end

@@ -16,8 +16,12 @@ class JsonAction
     end
   end
 
-  def self.select_user(id)
-    
+  def self.delete_user(id)
+    users = JsonAction.get_users
+    File.open("database.json", 'w') do |file|
+      users.delete_if{|user| user["id"] == id}
+      str = JSON.dump(users, file)
+    end
   end
 
 end
