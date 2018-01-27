@@ -31,6 +31,10 @@ class Action
     JsonAction.register_user(new_user)
   end
 
+  def edit
+    user = JsonAction.select_user()
+  end
+
   def delete
 
   end

@@ -3,9 +3,9 @@ require "json"
 class User
   attr_accessor :id, :name, :score
 
-  def initialize(id,name,score)
+  def initialize(id,score)
     @id = id
-    @name = name
+    # @name = name
     @score = score
   end
 
@@ -22,7 +22,7 @@ class User
   end
 
   def to_json
-    {"id": @id, "name": @name, "score": @score}
+    { "id": @id, "score": @score} # { "id": @id, "name": @name, "score": @score}
   end
 
   def self.average(users)
