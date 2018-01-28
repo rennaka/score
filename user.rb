@@ -3,8 +3,8 @@ require "json"
 class User
   attr_accessor :id, :name, :score
 
-  def initialize(id,score)
-    @id = id
+  def initialize(score)
+    @id = JsonAction.get_users.sort_by{|user| user["id"]}.map{|user| user["id"]}.last + 1
     # @name = name
     @score = score
   end
@@ -22,7 +22,7 @@ class User
   end
 
   def to_json
-    { "id": @id, "score": @score} # { "id": @id, "name": @name, "score": @score}
+    { "id": @id, "score": @score } # { "id": @id, "name": @name, "score": @score}
   end
 
   def self.average(users)

@@ -26,9 +26,7 @@ class Action
   end
 
   def create
-    # p "input name>"
-    # name = STDIN.gets.chomp!
-    new_user = User.new(new_id,score)
+    new_user = User.new(score)
     JsonAction.register_user(new_user)
     puts ">Successfully created score"
   end
@@ -39,8 +37,9 @@ class Action
 
   def delete
     puts ">Please enter delete line number"
-    delete_line = STDIN.gets.to_i
-    JsonAction.delete_user(delete_line)
+    delete_id = STDIN.gets.to_i
+    delete_user = @users.detect{|user| user["id"] == delete_id}
+    JsonAction.delete_user(delete_user)
   end
 
   private
@@ -63,7 +62,4 @@ class Action
     return ">invalid input: less than 100" if score.to_i > 100
   end
 
-  def new_id
-    @users.map{|user| user["id"]}.last + 1
-  end
 end
