@@ -5,7 +5,7 @@ class Action
   attr_accessor :users
 
   def initialize
-    @users = JsonAction.get_users
+    @users = JsonAction.get_users.sort_by{|user| user["id"]}
   end
 
   def main
@@ -21,7 +21,7 @@ class Action
   def read
     puts ">Show all scores"
     @users.each do |user|
-      puts "#{user["id"]}.#{user["score"]}"
+      display(user)
     end
   end
 
@@ -39,8 +39,14 @@ class Action
   end
 
   def delete
-      puts ">Please enter delete line number"
+    puts ">Please enter delete line number"
     delete_line = STDIN.gets.to_i
     JsonAction.delete_user(delete_line)
+  end
+
+  private
+
+  def display(user)
+    puts "#{user["id"]}.#{user["score"]}"
   end
 end
