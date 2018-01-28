@@ -50,17 +50,12 @@ class Action
   end
 
   def score
-    score = ""
     loop do
       p "Please enter the score>"
       tmp_score = STDIN.gets.chomp!
-      if score_validation_message(tmp_score).nil?
-        score = tmp_score.to_i
-        break
-      end
+      return tmp_score.to_i if score_validation_message(tmp_score).nil?
       puts score_validation_message(tmp_score)
     end
-    score
   end
 
   def score_validation_message(score)
