@@ -28,7 +28,7 @@ class Action
   def create
     # p "input name>"
     # name = STDIN.gets.chomp!
-    new_user = User.new(3,score)
+    new_user = User.new(new_id,score)
     JsonAction.register_user(new_user)
     puts ">Successfully created score"
   end
@@ -61,5 +61,9 @@ class Action
   def score_validation_message(score)
     return ">invalid input: not a number" unless score =~ /^[0-9]+$/
     return ">invalid input: less than 100" if score.to_i > 100
+  end
+
+  def new_id
+    @users.map{|user| user["id"]}.last + 1
   end
 end
