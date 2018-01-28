@@ -4,7 +4,7 @@ class User
   attr_accessor :id, :name, :score
 
   def initialize(score)
-    @id = JsonAction.get_users.sort_by{|user| user["id"]}.map{|user| user["id"]}.last + 1
+    @id = JsonAction.get_users.map{|user| user["id"]}.max + 1
     # @name = name
     @score = score
   end
