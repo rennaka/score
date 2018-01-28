@@ -28,10 +28,9 @@ class Action
   def create
     # p "input name>"
     # name = STDIN.gets.chomp!
-    p "Please enter the score>"
-    score = STDIN.gets.to_i
     new_user = User.new(3,score)
     JsonAction.register_user(new_user)
+    puts ">Successfully created score"
   end
 
   def edit
@@ -48,5 +47,24 @@ class Action
 
   def display(user)
     puts "#{user["id"]}.#{user["score"]}"
+  end
+
+  def score
+    score = ""
+    loop do
+      p "Please enter the score>"
+      tmp_score = STDIN.gets.chomp!
+      if score_validation_message(tmp_score).nil?
+        score = tmp_score.to_i
+        break
+      end
+      puts score_validation_message(tmp_score)
+    end
+    score
+  end
+
+  def score_validation_message(score)
+    return ">invalid input: not a number" unless score =~ /^[0-9]+$/
+    return ">invalid input: less than 100" if score.to_i > 100
   end
 end
