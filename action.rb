@@ -5,7 +5,7 @@ class Action
   attr_accessor :users
 
   def initialize
-    @users = JsonAction.get_users.sort_by{|user| user["id"]}
+    @users = JsonAction.get_users&.sort_by{|user| user["id"]}
   end
 
   def main
@@ -20,7 +20,7 @@ class Action
 
   def read
     puts ">Show all scores"
-    @users.each do |user|
+    @users&.each do |user|
       display(user)
     end
   end
@@ -30,7 +30,7 @@ class Action
     puts "Please enter the score>"
     new_user.score = STDIN.gets.chomp!
     return puts new_user.validation_message if new_user.validation_message
-    @users << new_user.to_json
+    @users ? (@users << new_user.to_json) : (@users = [new_user.to_json])
     JsonAction.save_users(@users)
     puts ">Successfully created score"
   end

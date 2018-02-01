@@ -4,7 +4,7 @@ class User
   attr_accessor :validation_message
 
   def initialize
-    @id = JsonAction.get_users.map{|user| user["id"]}.max + 1
+    @id = (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
   end
 
   def score=(val)
