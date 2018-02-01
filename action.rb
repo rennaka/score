@@ -26,7 +26,10 @@ class Action
   end
 
   def create
-    new_user = User.new(score)
+    new_user = User.new()
+    puts "Please enter the score>"
+    new_user.score = STDIN.gets.chomp!
+    return puts new_user.validation_message if new_user.validation_message
     @users << new_user.to_json
     JsonAction.save_users(@users)
     puts ">Successfully created score"
@@ -51,18 +54,18 @@ class Action
     puts "#{user["id"]}.#{user["score"]}"
   end
 
-  def score
-    loop do
-      p "Please enter the score>"
-      tmp_score = STDIN.gets.chomp!
-      return tmp_score.to_i if score_validation_message(tmp_score).nil?
-      puts score_validation_message(tmp_score)
-    end
-  end
-
-  def score_validation_message(score)
-    return ">invalid input: not a number" unless score =~ /^[0-9]+$/
-    return ">invalid input: less than 100" if score.to_i > 100
-  end
+  # def score
+  #   loop do
+  #     puts "Please enter the score>"
+  #     tmp_score = STDIN.gets.chomp!
+  #     return tmp_score.to_i if score_validation_message(tmp_score).nil?
+  #     puts score_validation_message(tmp_score)
+  #   end
+  # end
+  #
+  # def score_validation_message(score)
+  #   return ">invalid input: not a number" unless score =~ /^[0-9]+$/
+  #   return ">invalid input: less than 100" if score.to_i > 100
+  # end
 
 end
