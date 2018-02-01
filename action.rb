@@ -27,7 +27,8 @@ class Action
 
   def create
     new_user = User.new(score)
-    JsonAction.register_user(new_user)
+    @users << new_user.to_json
+    JsonAction.save_users(@users)
     puts ">Successfully created score"
   end
 
@@ -38,8 +39,10 @@ class Action
   def delete
     puts ">Please enter delete line number"
     delete_id = STDIN.gets.to_i
-    delete_user = @users.detect{|user| user["id"] == delete_id}
-    JsonAction.delete_user(delete_user)
+    user = @users.detect{|user| user["id"] == delete_id}
+    @users.delete(user)
+    JsonAction.save_users(@users)
+    puts ">Successfully deleted score"
   end
 
   private
