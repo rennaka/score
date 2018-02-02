@@ -27,23 +27,28 @@ class Action
 
   def create
     new_user = User.new()
-    create_user(new_user)
+    set_score(new_user)
+    return puts new_user.validation_message if new_user.validation_message
+    @users << new_user.to_json
+    JsonAction.save_users(@users)
   end
 
   def edit
     puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
     user = find_user(STDIN.gets.to_i)
-    delete_user(user)
     new_user = User.new()
     new_user.id = user["id"]
-    create_user(new_user)
+    set_score(new_user)
+    return puts new_user.validation_message if new_user.validation_message
+    @users[@users.index(user)] = new_user.to_json
+    JsonAction.save_users(@users)
   end
 
   def delete
     puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
     user = find_user(STDIN.gets.to_i)
-    delete_user(user)
-    puts ">Successfully deleted score"
+    @users.delete(user)
+    JsonAction.save_users(@users)
   end
 
   private
@@ -52,18 +57,18 @@ class Action
     puts "#{user["id"]}.#{user["score"]}"
   end
 
+  def set_score(user)
+    puts "Please enter the score>"
+    user.score = STDIN.gets.chomp!
+  end
+
   def delete_user(user)
-    @users.delete(user)
-    JsonAction.save_users(@users)
   end
 
   def create_user(user)
-    puts "Please enter the score>"
-    user.score = STDIN.gets.chomp!
-    return puts user.validation_message if user.validation_message
-    @users << user.to_json
-    JsonAction.save_users(@users)
-    puts ">Successfully #{caller[0][/`([^']*)'/, 1]} score"
+  end
+
+  def update_user(user)
   end
 
   def find_user(id)

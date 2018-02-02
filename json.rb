@@ -11,6 +11,7 @@ class JsonAction
     File.open(DB, 'w') do |file|
       JSON.dump(users, file)
     end
+    puts ">Successfully #{caller[0][/`([^']*)'/, 1]} score"
   end
 
 end
