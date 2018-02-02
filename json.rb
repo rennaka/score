@@ -1,3 +1,5 @@
+require "./word.rb"
+
 class JsonAction
   DB = "database.json"
 
