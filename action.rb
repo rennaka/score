@@ -62,15 +62,6 @@ class Action
     user.score = STDIN.gets.chomp!
   end
 
-  def delete_user(user)
-  end
-
-  def create_user(user)
-  end
-
-  def update_user(user)
-  end
-
   def find_user(id)
     @users.detect{|user| user["id"] == id}
   end
