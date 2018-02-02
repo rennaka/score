@@ -27,25 +27,22 @@ class Action
 
   def create
     new_user = User.new()
-    puts "Please enter the score>"
-    new_user.score = STDIN.gets.chomp!
-    return puts new_user.validation_message if new_user.validation_message
-    @users << new_user.to_json
-    # @users ? (@users << new_user.to_json) : (@users = [new_user.to_json])
-    JsonAction.save_users(@users)
-    puts ">Successfully created score"
+    create_user(new_user)
   end
 
   def edit
-    user = JsonAction.select_user()
+    puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
+    user = find_user(STDIN.gets.to_i)
+    delete_user(user)
+    new_user = User.new()
+    new_user.id = user["id"]
+    create_user(new_user)
   end
 
   def delete
-    puts ">Please enter delete line number"
-    delete_id = STDIN.gets.to_i
-    user = @users.detect{|user| user["id"] == delete_id}
-    @users.delete(user)
-    JsonAction.save_users(@users)
+    puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
+    user = find_user(STDIN.gets.to_i)
+    delete_user(user)
     puts ">Successfully deleted score"
   end
 
@@ -53,6 +50,24 @@ class Action
 
   def display(user)
     puts "#{user["id"]}.#{user["score"]}"
+  end
+
+  def delete_user(user)
+    @users.delete(user)
+    JsonAction.save_users(@users)
+  end
+
+  def create_user(user)
+    puts "Please enter the score>"
+    user.score = STDIN.gets.chomp!
+    return puts user.validation_message if user.validation_message
+    @users << user.to_json
+    JsonAction.save_users(@users)
+    puts ">Successfully #{caller[0][/`([^']*)'/, 1]} score"
+  end
+
+  def find_user(id)
+    @users.detect{|user| user["id"] == id}
   end
 
   # def score
