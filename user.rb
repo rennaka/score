@@ -3,8 +3,9 @@ require "json"
 class User
   attr_accessor :id, :name, :validation_message
 
-  def initialize
-    @id = (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
+  def initialize(id = nil,name = nil)
+    @id = id || (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
+    @name = name
   end
 
   def name=(val)

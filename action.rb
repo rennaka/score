@@ -39,11 +39,7 @@ class Action
   def edit
     puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
     user = find_user(STDIN.gets.to_i)
-    new_user = User.new()
-    new_user.id = user["id"]
-    new_user.name = user["name"]
-    # set_name(new_user)
-    # return puts new_user.validation_message if new_user.has_validation_error?
+    new_user = User.new(user["id"],user["name"])
     set_score(new_user)
     return Print.red(new_user.validation_message) if new_user.has_validation_error?
     @users[@users.index(user)] = new_user.to_json
