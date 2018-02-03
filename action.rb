@@ -28,7 +28,9 @@ class Action
   def create
     new_user = User.new()
     set_score(new_user)
-    return puts new_user.validation_message if new_user.validation_message
+    return puts new_user.validation_message if new_user.has_validation_error?
+    set_name(new_user)
+    return puts new_user.validation_message if new_user.has_validation_error?
     @users << new_user.to_json
     JsonAction.save_users(@users)
   end
@@ -38,8 +40,10 @@ class Action
     user = find_user(STDIN.gets.to_i)
     new_user = User.new()
     new_user.id = user["id"]
+    # set_name(new_user)
+    # return puts new_user.validation_message if new_user.has_validation_error?
     set_score(new_user)
-    return puts new_user.validation_message if new_user.validation_message
+    return puts new_user.validation_message if new_user.has_validation_error?
     @users[@users.index(user)] = new_user.to_json
     JsonAction.save_users(@users)
   end
@@ -54,12 +58,17 @@ class Action
   private
 
   def display(user)
-    puts "#{user["id"]}.#{user["score"]}"
+    puts "#{user["id"]},#{user["name"]},#{user["score"]}"
   end
 
   def set_score(user)
     puts "Please enter the score>"
     user.score = STDIN.gets.chomp!
+  end
+
+  def set_name(user)
+    puts "Please enter the name>"
+    user.name = STDIN.gets.chomp!
   end
 
   def find_user(id)

@@ -7,17 +7,26 @@ class User
     @id = (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
   end
 
+  def name=(val)
+    @name = val if name_validation_message(val).nil?
+    self.validation_message = name_validation_message(val)
+  end
+
   def score=(val)
     @score = val.to_i if score_validation_message(val).nil?
     self.validation_message = score_validation_message(val)
   end
 
-  def to_json
-    { "id": @id, "score": @score } # { "id": @id, "name": @name, "score": @score}
+  def has_validation_error?
+    !self.validation_message.nil?
   end
 
-  def self.average(users)
-    users.empty? ? 0 : (users.map{|user| user["score"]}.inject(:+)*1.0 / (users.size)).round(1)
+  def to_json
+    { "id": @id, "name": @name, "score": @score }
+  end
+
+  def name_validation_message(name)
+    return ">invalid input: should not be blank" if name.empty?
   end
 
   def score_validation_message(score)
@@ -25,4 +34,7 @@ class User
     return ">invalid input: less than 100" if score.to_i > 100
   end
 
+  def self.average(users)
+    users.empty? ? 0 : (users.map{|user| user["score"]}.inject(:+)*1.0 / (users.size)).round(1)
+  end
 end
