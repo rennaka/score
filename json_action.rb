@@ -1,4 +1,5 @@
 require "./word.rb"
+require "./print.rb"
 
 class JsonAction
   DB = "database.json"
@@ -13,7 +14,7 @@ class JsonAction
     File.open(DB, 'w') do |file|
       JSON.dump(users, file)
     end
-    puts ">Successfully #{Word.past(caller[0][/`([^']*)'/, 1])} score"
+    puts Print.green(">Successfully #{Word.past(caller[0][/`([^']*)'/, 1])} score")
   end
 
 end

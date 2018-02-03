@@ -1,7 +1,7 @@
 require "json"
 
 class User
-  attr_accessor :id, :validation_message
+  attr_accessor :id, :name, :validation_message
 
   def initialize
     @id = (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1

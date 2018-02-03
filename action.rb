@@ -1,5 +1,6 @@
 require "json"
-require "./json.rb"
+require "./json_action.rb"
+require "./print.rb"
 
 class Action
   attr_accessor :users
@@ -28,9 +29,9 @@ class Action
   def create
     new_user = User.new()
     set_score(new_user)
-    return puts new_user.validation_message if new_user.has_validation_error?
+    return Print.red(new_user.validation_message) if new_user.has_validation_error?
     set_name(new_user)
-    return puts new_user.validation_message if new_user.has_validation_error?
+    return Print.red(new_user.validation_message) if new_user.has_validation_error?
     @users << new_user.to_json
     JsonAction.save_users(@users)
   end
@@ -40,10 +41,11 @@ class Action
     user = find_user(STDIN.gets.to_i)
     new_user = User.new()
     new_user.id = user["id"]
+    new_user.name = user["name"]
     # set_name(new_user)
     # return puts new_user.validation_message if new_user.has_validation_error?
     set_score(new_user)
-    return puts new_user.validation_message if new_user.has_validation_error?
+    return Print.red(new_user.validation_message) if new_user.has_validation_error?
     @users[@users.index(user)] = new_user.to_json
     JsonAction.save_users(@users)
   end
