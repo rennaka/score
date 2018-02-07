@@ -16,13 +16,20 @@ class Action
   end
 
   def average
-    puts">Score Average: #{User.average(@users)}"
+    puts ">Score Average: #{User.average(@users)}"
   end
 
   def read
     puts ">Show all scores"
     @users.each_with_index do |user,i|
       puts "#{i + 1},#{user["name"]},#{user["score"]}"
+    end
+  end
+
+  def read_as_html
+    Print.html("h2","Show all scores")
+    @users.each_with_index do |user,i|
+      Print.html("p","#{i + 1},#{user["name"]},#{user["score"]}")
     end
   end
 

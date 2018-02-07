@@ -11,4 +11,8 @@ class Print
     puts output
     print "\e[0m"
   end
+
+  def self.html(tag,output)
+    puts "<#{tag}>#{output}</#{tag}>"
+  end
 end
