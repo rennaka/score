@@ -1,10 +1,10 @@
 require "json"
 
 class User
-  attr_accessor :id, :name, :validation_message
+  attr_accessor :name, :validation_message
 
-  def initialize(id = nil,name = nil)
-    @id = id || (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
+  def initialize(name = nil)
+    # @id = id || (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
     @name = name
   end
 
@@ -23,7 +23,7 @@ class User
   end
 
   def to_json
-    { "id": @id, "name": @name, "score": @score }
+    { "name": @name, "score": @score }
   end
 
   def name_validation_message(name)

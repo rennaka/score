@@ -21,8 +21,8 @@ class Action
 
   def read
     puts ">Show all scores"
-    @users.each do |user|
-      display(user)
+    @users.each_with_index do |user,i|
+      puts "#{i + 1},#{user["name"]},#{user["score"]}"
     end
   end
 
@@ -39,7 +39,7 @@ class Action
   def edit
     puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
     user = find_user(STDIN.gets.to_i)
-    new_user = User.new(user["id"],user["name"])
+    new_user = User.new(user["name"])
     set_score(new_user)
     return Print.red(new_user.validation_message) if new_user.has_validation_error?
     @users[@users.index(user)] = new_user.to_json
@@ -56,7 +56,6 @@ class Action
   private
 
   def display(user)
-    puts "#{user["id"]},#{user["name"]},#{user["score"]}"
   end
 
   def set_score(user)
@@ -69,9 +68,10 @@ class Action
     user.name = STDIN.gets.chomp!
   end
 
-  def find_user(id)
-    @users.detect{|user| user["id"] == id}
+  def find_user(line_num)
+    @users[line_num - 1]
   end
+
 
   # def score
   #   loop do
