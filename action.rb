@@ -16,7 +16,7 @@ class Action
   end
 
   def average
-    puts ">Score Average: #{User.average(@users)}"
+    puts ">Score Average: #{User.score_average(@users)}"
   end
 
   def read
