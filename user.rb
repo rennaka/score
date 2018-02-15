@@ -1,7 +1,11 @@
 require "json"
 
 class User
-  attr_accessor :name, :validation_message
+  attr_accessor  :validation_message
+
+  def self.score_average(users)
+    users.empty? ? 0 : (users.map{|user| user["score"]}.inject(:+)*1.0 / (users.size)).round(1)
+  end
 
   def initialize(name = nil)
     # @id = id || (JsonAction.get_users&.map{|user| user["id"]}&.max || 0) + 1
@@ -35,7 +39,4 @@ class User
     return ">invalid input: less than 100" if score.to_i > 100
   end
 
-  def self.score_average(users)
-    users.empty? ? 0 : (users.map{|user| user["score"]}.inject(:+)*1.0 / (users.size)).round(1)
-  end
 end

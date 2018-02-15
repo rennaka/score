@@ -44,7 +44,7 @@ class Action
   end
 
   def edit
-    puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
+    puts ">Please enter #{method_name} line number"
     user = find_user(STDIN.gets.to_i)
     new_user = User.new(user["name"])
     set_score(new_user)
@@ -54,7 +54,7 @@ class Action
   end
 
   def delete
-    puts ">Please enter #{caller[0][/`([^']*)'/, 1]} line number"
+    puts ">Please enter #{method_name} line number"
     user = find_user(STDIN.gets.to_i)
     @users.delete(user)
     JsonAction.save_users(@users)
@@ -77,6 +77,10 @@ class Action
 
   def find_user(line_num)
     @users[line_num - 1]
+  end
+
+  def method_name
+    caller[0][/`([^']*)'/, 1]
   end
 
 
